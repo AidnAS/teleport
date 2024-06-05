@@ -498,6 +498,7 @@ var DatabaseProtocols = []string{
 	ProtocolClickHouse,
 	ProtocolClickHouseHTTP,
 	ProtocolSpanner,
+	ProtocolKafka,
 }
 
 // ReadableDatabaseProtocol returns a more human-readable string of the
@@ -534,6 +535,8 @@ func ReadableDatabaseProtocol(p string) string {
 		return "Clickhouse (HTTP)"
 	case ProtocolSpanner:
 		return "GCloud Spanner"
+	case ProtocolKafka:
+		return "Kafka"
 	default:
 		// Unknown protocol. Return original string.
 		return p

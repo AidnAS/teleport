@@ -71,6 +71,9 @@ const (
 	// ProtocolSpanner is TLS ALPN protocol value used to indicate Google Spanner (gRPC) Protocol.
 	ProtocolSpanner Protocol = "teleport-spanner"
 
+	// ProtocolSpanner is TLS ALPN protocol value used to indicate Google Spanner (gRPC) Protocol.
+	ProtocolKafka Protocol = "teleport-kafka"
+
 	// ProtocolProxySSH is TLS ALPN protocol value used to indicate Proxy SSH protocol.
 	ProtocolProxySSH Protocol = "teleport-proxy-ssh"
 
@@ -179,6 +182,8 @@ func ToALPNProtocol(dbProtocol string) (Protocol, error) {
 		return ProtocolClickhouse, nil
 	case defaults.ProtocolSpanner:
 		return ProtocolSpanner, nil
+	case defaults.ProtocolKafka:
+		return ProtocolKafka, nil
 	default:
 		return "", trace.NotImplemented("%q protocol is not supported", dbProtocol)
 	}
