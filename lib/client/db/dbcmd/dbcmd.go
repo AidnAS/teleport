@@ -211,6 +211,9 @@ func (c *CLICommandBuilder) GetConnectCommand() (*exec.Cmd, error) {
 
 	case defaults.ProtocolSpanner:
 		return c.getSpannerCommand()
+
+	case defaults.ProtocolKafka:
+		return c.getKafkaCommand(), nil
 	}
 
 	return nil, trace.BadParameter("unsupported database protocol: %v", c.db)
@@ -743,6 +746,10 @@ func (c *CLICommandBuilder) getSpannerCommand() (*exec.Cmd, error) {
 		fmt.Sprintf("SPANNER_EMULATOR_HOST=%s:%d", c.host, c.port),
 	)
 	return cmd, nil
+}
+
+func (c *CLICommandBuilder) getKafkaCommand() *exec.Cmd {
+	return exec.Command("echo", "test")
 }
 
 type jdbcOracleThinConnection struct {
