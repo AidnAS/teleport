@@ -477,6 +477,8 @@ const (
 	ProtocolClickHouseHTTP = "clickhouse-http"
 	// ProtocolSpanner is the GCP Spanner database protocol.
 	ProtocolSpanner = "spanner"
+	// ProtocolKafka is the Kafka database protocol.
+	ProtocolKafka = "kafka"
 )
 
 // DatabaseProtocols is a list of all supported database protocols.
