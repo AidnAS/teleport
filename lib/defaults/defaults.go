@@ -477,6 +477,8 @@ const (
 	ProtocolClickHouseHTTP = "clickhouse-http"
 	// ProtocolSpanner is the GCP Spanner database protocol.
 	ProtocolSpanner = "spanner"
+	// ProtocolKafka is the Kafka database protocol.
+	ProtocolKafka = "kafka"
 )
 
 // DatabaseProtocols is a list of all supported database protocols.
@@ -496,6 +498,7 @@ var DatabaseProtocols = []string{
 	ProtocolClickHouse,
 	ProtocolClickHouseHTTP,
 	ProtocolSpanner,
+	ProtocolKafka,
 }
 
 // ReadableDatabaseProtocol returns a more human-readable string of the
@@ -532,6 +535,8 @@ func ReadableDatabaseProtocol(p string) string {
 		return "Clickhouse (HTTP)"
 	case ProtocolSpanner:
 		return "GCloud Spanner"
+	case ProtocolKafka:
+		return "Kafka"
 	default:
 		// Unknown protocol. Return original string.
 		return p

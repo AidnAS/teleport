@@ -1142,6 +1142,8 @@ const (
 	DatabaseTypeOpenSearch = "opensearch"
 	// DatabaseTypeMongoAtlas
 	DatabaseTypeMongoAtlas = "mongo-atlas"
+	// Kafka
+	DatabaseTypeKafka = "kafka"
 )
 
 // GetServerName returns the GCP database project and instance as "<project-id>:<instance-id>".

@@ -55,6 +55,7 @@ import (
 	"github.com/gravitational/teleport/lib/srv/db/common"
 	"github.com/gravitational/teleport/lib/srv/db/dynamodb"
 	"github.com/gravitational/teleport/lib/srv/db/elasticsearch"
+	"github.com/gravitational/teleport/lib/srv/db/kafka"
 	"github.com/gravitational/teleport/lib/srv/db/mongodb"
 	"github.com/gravitational/teleport/lib/srv/db/mysql"
 	"github.com/gravitational/teleport/lib/srv/db/opensearch"
@@ -81,6 +82,7 @@ func init() {
 	common.RegisterEngine(clickhouse.NewEngine, defaults.ProtocolClickHouse)
 	common.RegisterEngine(clickhouse.NewEngine, defaults.ProtocolClickHouseHTTP)
 	common.RegisterEngine(spanner.NewEngine, defaults.ProtocolSpanner)
+	common.RegisterEngine(kafka.NewEngine, defaults.ProtocolKafka)
 }
 
 // Config is the configuration for a database proxy server.

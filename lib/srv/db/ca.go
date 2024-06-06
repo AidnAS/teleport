@@ -109,6 +109,7 @@ func (s *Server) shouldInitCACertLocked(database types.Database) bool {
 		types.DatabaseTypeDynamoDB,
 		types.DatabaseTypeMongoAtlas,
 		types.DatabaseTypeCloudSQL,
+		types.DatabaseTypeKafka,
 		// GCP Spanner is intentionally omitted, because the GCP Spanner endpoint
 		// is issued by a public CA.
 		types.DatabaseTypeAzure:

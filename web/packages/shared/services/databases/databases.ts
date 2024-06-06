@@ -71,6 +71,8 @@ const formatProtocol = (input: DbProtocol) => {
       return 'Elasticsearch';
     case 'spanner':
       return 'Spanner';
+    case 'kafka':
+      return 'Kafka';
     default:
       return input;
   }
