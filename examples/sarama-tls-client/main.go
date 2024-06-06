@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -43,25 +44,8 @@ var (
 func createTLSConfiguration() (t *tls.Config) {
 	t = &tls.Config{
 		InsecureSkipVerify: *tlsSkipVerify,
+		ServerName:         "localhost",
 	}
-
-	/*
-		encryptedPrivateKey, err := os.ReadFile(*keyFile)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		privatekey, err := pkcs8.ParsePKCS8PrivateKey(encryptedPrivateKey, []byte("aidn"))
-		if err != nil {
-			log.Fatal(err)
-		}
-		encode := base64.RawURLEncoding.EncodeToString
-
-		certBytes, err := os.ReadFile(*certFile)
-		if err != nil {
-			log.Fatal(err)
-		}
-	*/
 
 	if *certFile != "" && *keyFile != "" && *caFile != "" {
 		cert, err := tls.LoadX509KeyPair(*certFile, *keyFile) // nolint: gosec
@@ -81,6 +65,7 @@ func createTLSConfiguration() (t *tls.Config) {
 			Certificates:       []tls.Certificate{cert},
 			RootCAs:            caCertPool,
 			InsecureSkipVerify: *tlsSkipVerify,
+			ServerName:         "localhost",
 		}
 	}
 	return t
@@ -108,6 +93,8 @@ func main() {
 	conf.Metadata.Full = true
 	conf.Net.TLS.Enable = true
 	conf.Net.TLS.Config = createTLSConfiguration()
+
+	fmt.Printf("TLS Config: %+v\n", conf.Net.TLS.Config)
 
 	client, err := sarama.NewClusterAdmin(splitBrokers, conf)
 	if err != nil {

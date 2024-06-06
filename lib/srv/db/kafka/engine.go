@@ -20,13 +20,13 @@ package kafka
 
 import (
 	"context"
-	"encoding/json"
 	"net"
 
 	"github.com/IBM/sarama"
 	"github.com/gravitational/trace"
 
 	"github.com/gravitational/teleport/lib/srv/db/common"
+	"github.com/gravitational/teleport/lib/srv/db/kafka/encoder"
 	"github.com/gravitational/teleport/lib/srv/db/mongodb/protocol"
 	"github.com/gravitational/teleport/lib/utils"
 )
@@ -119,14 +119,26 @@ func (e *Engine) handleClientMessage(ctx context.Context, sessionCtx *common.Ses
 		return trace.Wrap(err)
 	}
 
-	// serialize the topics
-	serverMessage, err := json.Marshal(topics)
+	resp := &encoder.Response{
+		CorrelationID: int32(len(topics)),
+		ClientID:      sessionCtx.Identity.Username,
+	}
+
+	b, err := encoder.Encode(resp)
 	if err != nil {
 		return trace.Wrap(err)
 	}
 
+	/*
+		// serialize the topics
+		serverMessage, err := json.Marshal(topics)
+		if err != nil {
+			return trace.Wrap(err)
+		}protocol
+	*/
+
 	// ... and pass it back to the client.
-	_, err = clientConn.Write(serverMessage)
+	_, err = clientConn.Write(b)
 	if err != nil {
 		return trace.Wrap(err)
 	}
