@@ -44,8 +44,27 @@ func createTLSConfiguration() (t *tls.Config) {
 	t = &tls.Config{
 		InsecureSkipVerify: *tlsSkipVerify,
 	}
+
+	/*
+		encryptedPrivateKey, err := os.ReadFile(*keyFile)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		privatekey, err := pkcs8.ParsePKCS8PrivateKey(encryptedPrivateKey, []byte("aidn"))
+		if err != nil {
+			log.Fatal(err)
+		}
+		encode := base64.RawURLEncoding.EncodeToString
+
+		certBytes, err := os.ReadFile(*certFile)
+		if err != nil {
+			log.Fatal(err)
+		}
+	*/
+
 	if *certFile != "" && *keyFile != "" && *caFile != "" {
-		cert, err := tls.LoadX509KeyPair(*certFile, *keyFile)
+		cert, err := tls.LoadX509KeyPair(*certFile, *keyFile) // nolint: gosec
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -98,6 +117,20 @@ func main() {
 	topics, err := client.ListTopics()
 	if err != nil {
 		log.Fatalf("failed to list topics: %v", err)
+	}
+	log.Printf("Found %d topics\n", len(topics))
+
+	if len(topics) == 1 {
+		if err := client.CreateTopic("test-topic-2", &sarama.TopicDetail{
+			NumPartitions: 1, ReplicationFactor: 1}, false); err != nil {
+			log.Fatalf("failed to create topic: %v", err)
+		}
+		log.Printf("created topic")
+
+		topics, err = client.ListTopics()
+		if err != nil {
+			log.Fatalf("failed to list topics: %v", err)
+		}
 	}
 
 	log.Printf("Found %d topics\n", len(topics))
